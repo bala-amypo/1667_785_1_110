@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.AllocationRule;
 
 @Repository
-public interface AllocationRulerepository extends JpaRepository<Resource,Integer>{
+public interface AllocationRulerepository extends JpaRepository<AllocationRule,Long>{
        
 }

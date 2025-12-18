@@ -2,9 +2,9 @@ package com.example.demo.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.entity.Resource;
+import com.example.demo.entity.ResourceAllocation;
 
 @Repository
-public interface ResourceAllocationRepository extends JpaRepository<xResource,Integer>{
+public interface ResourceAllocationRepository extends JpaRepository<ResourceAllocation,Integer>{
        
 }

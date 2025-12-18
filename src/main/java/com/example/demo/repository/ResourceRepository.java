@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.Resource;
 
 @Repository
-public interface ResourceAllocationRepository extends JpaRepository<ResourceRequest,Integer>{
+public interface ResourceRepository extends JpaRepository<Resource,Integer>{
        
 }

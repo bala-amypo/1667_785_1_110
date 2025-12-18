@@ -5,7 +5,7 @@ public class Resource{
     private String resourceName;
     private String resourceType;
     @Min(1)
-    private String capacity;
+    private int capacity;
     private String location;
     private LocalDateTime createdAt;
 }

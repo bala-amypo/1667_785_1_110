@@ -61,6 +61,8 @@ public class Resource{
         this.id = id;
         this.resourceName = resourceName;
         this.resourceType = resourceType;
-        this.capacity = capacity
+        this.capacity = capacity;
+        this.location = location;
+        this.createdAt = createdAt;
     }
 }

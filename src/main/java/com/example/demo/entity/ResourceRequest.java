@@ -28,8 +28,10 @@ public class ResourceRequest {
         this.resourceType = resourceType;
         this.startTime = startTime;
         this.requestedBy = requestedBy;
-        this.startTime = startTime;
-        th
+        this.endTime = endTime;
+        this.purpose = purpose;
+        this.status = status;
+        this.resourceAllocation = resourceAllocation;
     }
 
 

@@ -1,51 +1,62 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.ResourceAllocation;
+import com.example.demo.entity.ResourceRequest;
+import com.example.demo.entity.Resource;
 import com.example.demo.repository.ResourceAllocationRepository;
+import com.example.demo.repository.ResourceRepository;
+import com.example.demo.repository.ResourceRequestRepository;
 import com.example.demo.service.ResourceAllocationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResourceAllocationServiceImpl implements ResourceAllocationService {
 
-    private final ResourceAllocationRepository allocationRepository;
+    private final ResourceRequestRepository requestRepo;
+    private final ResourceRepository resourceRepo;
+    private final ResourceAllocationRepository allocationRepo;
 
     @Autowired
-    public ResourceAllocationServiceImpl(ResourceAllocationRepository allocationRepository) {
-        this.allocationRepository = allocationRepository;
+    public ResourceAllocationServiceImpl(ResourceRequestRepository requestRepo,
+                                         ResourceRepository resourceRepo,
+                                         ResourceAllocationRepository allocationRepo) {
+        this.requestRepo = requestRepo;
+        this.resourceRepo = resourceRepo;
+        this.allocationRepo = allocationRepo;
+    }
+
+@Override
+public ResourceAllocation autoAllocate(Long requestId) {
+    // directly fetch or return null if not found
+    ResourceRequest request = requestRepo.findById(requestId).orElse(null);
+    if (request == null) return null;
+
+    List<Resource> available = resourceRepo.findByResourceTypeAndStartTimeBetween(
+            request.getResourceType(), request.getStartTime(), request.getEndTime());
+
+    ResourceAllocation allocation = new ResourceAllocation();
+    allocation.setRequestedBy(request.getRequestedBy());
+    allocation.setResource(available.isEmpty() ? null : available.get(0));
+    allocation.setStartTime(request.getStartTime());
+    allocation.setEndTime(request.getEndTime());
+    allocation.setStatus(available.isEmpty() ? "REJECTED" : "APPROVED");
+
+    return allocationRepo.save(allocation);
+}
+
+
+    @Override
+    public ResourceAllocation getAllocation(Long id) {
+        return allocationRepo.findById(id).orElse(null);
     }
 
     @Override
-    public ResourceAllocation createAllocation(ResourceAllocation allocation) {
-        return allocationRepository.save(allocation);
-    }
-
-    @Override
-    public ResourceAllocation getAllocation(Long allocationId) {
-        return allocationRepository.findById(allocationId).orElse(null);
-    }
-
-    @Override
-    public List<ResourceAllocation> getAllocationsByTypeAndTime(String resourceType, LocalDateTime start, LocalDateTime end) {
-        return allocationRepository.findByResourceTypeAndStartTimeBetween(resourceType, start, end);
-    }
-
-    @Override
-    public List<ResourceAllocation> getAllocationsByUser(Long userId) {
-        return allocationRepository.findByRequestedBy_Id(userId);
-    }
-
-    @Override
-    public ResourceAllocation updateAllocationStatus(Long allocationId, String status) {
-        ResourceAllocation allocation = allocationRepository.findById(allocationId).orElse(null);
-        if (allocation != null) {
-            allocation.setStatus(status);
-            allocationRepository.save(allocation);
-        }
-        return allocation;
+    public List<ResourceAllocation> getAllAllocations() {
+        return allocationRepo.findAll();
     }
 }

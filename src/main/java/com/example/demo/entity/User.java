@@ -16,10 +16,10 @@ public class User {
     private String email;
     private String role;
     private LocalDateTime createdAt;
-    
+
     public User() {}
 
-    public User(String fullName, String email, String role) {
+    public User(String fullName,@Column(unique = true, nullable = false) String email, String role) {
         this.fullName = fullName;
         this.email = email;
         this.role = role;

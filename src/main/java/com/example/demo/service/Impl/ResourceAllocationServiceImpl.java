@@ -27,7 +27,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     @Override
     public ResourceAllocation getAllocation(Long id) {
         ResourceAllocation allocation = allocationRepository.findById(id).orElse(null);
-        return allocation; // returns null if not found
+        return allocation; 
     }
 
     @Override
@@ -42,6 +42,6 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
             allocation.setStatus(status);
             return allocationRepository.save(allocation);
         }
-        return null; // return null if allocation not found
+        return null;
     }
 }

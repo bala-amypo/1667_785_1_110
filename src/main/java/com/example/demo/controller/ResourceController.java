@@ -8,7 +8,11 @@ import java.util.List;
 
 @RestController
 public class ResourceController {
-    
+    public ResourceRepository resourceRepository;
+
+    public ResourceServiceImpl(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
     @PostMapping("/api/resources")
     public Resource create(@RequestBody Resource resource) {
         return resourceService.createResource(resource);

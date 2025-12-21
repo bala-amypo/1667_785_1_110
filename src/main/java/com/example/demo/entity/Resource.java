@@ -1,70 +1,36 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Resource {
 
-public class Resource{
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
     private String resourceName;
+
+    @Column(nullable = false)
     private String resourceType;
-    private int capacity;
+
+    private Integer capacity;
+
     private String location;
+
     private LocalDateTime createdAt;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public Resource(){
-    }
-
-    public Resource(){
-        this.id = id;
-        this.resourceName = resourceName;
-        this.resourceType = resourceType;
-        this.capacity = capacity;
-        this.location = location;
-        this.createdAt = createdAt;
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 }

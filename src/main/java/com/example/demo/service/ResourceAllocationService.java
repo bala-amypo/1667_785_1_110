@@ -5,8 +5,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ResourceAllocationService {
-    ResourceAllocation createAllocation(ResourceAllocation allocation);
-    ResourceAllocation getAllocation(Long id);
-    List<ResourceAllocation> getAllocationsByResourceTypeAndTime(String resourceType, LocalDateTime start, LocalDateTime end);
-    ResourceAllocation updateAllocationStatus(Long id, String status);
+
+    ResourceAllocation createAllocation(ResourceAllocation allocation); // only allocation
+
+    ResourceAllocation getAllocation(Long allocationId); // use same name as controller calls or adjust
+
+    List<ResourceAllocation> getAllocationsByTypeAndTime(String resourceType, LocalDateTime start, LocalDateTime end);
+
+    List<ResourceAllocation> getAllocationsByUser(Long userId);
+
+    ResourceAllocation updateAllocationStatus(Long allocationId, String status);
 }

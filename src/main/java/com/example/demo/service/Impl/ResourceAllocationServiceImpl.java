@@ -32,7 +32,6 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
 
 @Override
 public ResourceAllocation autoAllocate(Long requestId) {
-    // directly fetch or return null if not found
     ResourceRequest request = requestRepo.findById(requestId).orElse(null);
     if (request == null) return null;
 

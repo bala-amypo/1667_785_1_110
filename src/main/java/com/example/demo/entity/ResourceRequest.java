@@ -19,20 +19,5 @@ public class ResourceRequest {
     private String status;
     private ResourceAllocation resourceAllocation;
 
-    public ResourceRequest(){
-
-    }
-
-    public ResourceRequest( ){
-        this.id = id;
-        this.resourceType = resourceType;
-        this.startTime = startTime;
-        this.requestedBy = requestedBy;
-        this.endTime = endTime;
-        this.purpose = purpose;
-        this.status = status;
-        this.resourceAllocation = resourceAllocation;
-    }
-
 
 }

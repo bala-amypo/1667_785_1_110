@@ -1,61 +1,61 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
+import com.example.demo.entity.Resource;
 import com.example.demo.entity.ResourceAllocation;
 import com.example.demo.entity.ResourceRequest;
-import com.example.demo.entity.Resource;
 import com.example.demo.repository.ResourceAllocationRepository;
 import com.example.demo.repository.ResourceRepository;
 import com.example.demo.repository.ResourceRequestRepository;
-import com.example.demo.service.ResourceAllocationService;
-
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ResourceAllocationServiceImpl implements ResourceAllocationService {
 
-    private final ResourceRequestRepository requestRepo;
-    private final ResourceRepository resourceRepo;
-    private final ResourceAllocationRepository allocationRepo;
+    private final ResourceRequestRepository resourceRequestRepository;
+    private final ResourceRepository resourceRepository;
+    private final ResourceAllocationRepository resourceAllocationRepository;
 
-    @Autowired
-    public ResourceAllocationServiceImpl(ResourceRequestRepository requestRepo,
-                                         ResourceRepository resourceRepo,
-                                         ResourceAllocationRepository allocationRepo) {
-        this.requestRepo = requestRepo;
-        this.resourceRepo = resourceRepo;
-        this.allocationRepo = allocationRepo;
+    // Constructor Injection
+    public ResourceAllocationServiceImpl(
+            ResourceRequestRepository resourceRequestRepository,
+            ResourceRepository resourceRepository,
+            ResourceAllocationRepository resourceAllocationRepository) {
+
+        this.resourceRequestRepository = resourceRequestRepository;
+        this.resourceRepository = resourceRepository;
+        this.resourceAllocationRepository = resourceAllocationRepository;
     }
 
-@Override
-public ResourceAllocation autoAllocate(Long requestId) {
-    ResourceRequest request = requestRepo.findById(requestId).orElse(null);
-    if (request == null) return null;
+    @Override
+    public ResourceAllocation autoAllocate(Long requestId) {
 
-    List<Resource> available = resourceRepo.findByResourceTypeAndStartTimeBetween(
-            request.getResourceType(), request.getStartTime(), request.getEndTime());
+        ResourceRequest request = resourceRequestRepository.findById(requestId)
+                .orElseThrow(() -> new RuntimeException("ResourceRequest not found"));
 
-    ResourceAllocation allocation = new ResourceAllocation();
-    allocation.setRequestedBy(request.getRequestedBy());
-    allocation.setResource(available.isEmpty() ? null : available.get(0));
-    allocation.setStartTime(request.getStartTime());
-    allocation.setEndTime(request.getEndTime());
-    allocation.setStatus(available.isEmpty() ? "REJECTED" : "APPROVED");
+        // Simple allocation logic: take first available resource
+        Resource resource = resourceRepository.findAll().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No resources available"));
 
-    return allocationRepo.save(allocation);
-}
+        ResourceAllocation allocation = new ResourceAllocation();
+        allocation.setRequest(request);
+        allocation.setResource(resource);
+        allocation.setConflictFlag(false);
+        allocation.setNotes("Auto allocated");
 
+        return resourceAllocationRepository.save(allocation);
+    }
 
     @Override
     public ResourceAllocation getAllocation(Long id) {
-        return allocationRepo.findById(id).orElse(null);
+        return resourceAllocationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ResourceAllocation not found"));
     }
 
     @Override
     public List<ResourceAllocation> getAllAllocations() {
-        return allocationRepo.findAll();
+        return resourceAllocationRepository.findAll();
     }
 }

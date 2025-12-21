@@ -2,10 +2,14 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class ResourceAllocation {
 
@@ -13,12 +17,11 @@ public class ResourceAllocation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "resource_id", nullable = false)
+    @ManyToOne(optional = false)
     private Resource resource;
 
-    @OneToOne
-    @JoinColumn(name = "request_id", unique = true, nullable = false)
+    @OneToOne(optional = false)
+    @JoinColumn(unique = true)
     private ResourceRequest request;
 
     private LocalDateTime allocatedAt;
@@ -27,18 +30,8 @@ public class ResourceAllocation {
 
     private String notes;
 
-    public ResourceAllocation() {
-    }
-
-    public ResourceAllocation(Resource resource,ResourceRequest request,Boolean conflictFlag,String notes) {
-        this.resource = resource;
-        this.request = request;
-        this.conflictFlag = conflictFlag;
-        this.notes = notes;
-    }
-
     @PrePersist
     public void prePersist() {
-        this.allocatedAt = LocalDateTime.now();
+        allocatedAt = LocalDateTime.now();
     }
 }

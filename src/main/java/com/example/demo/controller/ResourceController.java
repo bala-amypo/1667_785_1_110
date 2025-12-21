@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 public class ResourceController {
-
+    
     @PostMapping("/api/resources")
     public Resource create(@RequestBody Resource resource) {
         return resourceService.createResource(resource);

@@ -30,12 +30,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     public ResourceAllocation autoAllocate(Long requestId) {
 
         ResourceRequest request = resourceRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("ResourceRequest not found"));
+          .orElseThrow(() -> new RuntimeException("ResourceRequest not found"));
 
        
-        Resource resource = resourceRepository.findAll().stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No resources available"));
+        Resource resource = resourceRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("No resources available"));
 
         ResourceAllocation allocation = new ResourceAllocation();
         allocation.setRequest(request);

@@ -17,7 +17,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     private final ResourceRepository resourceRepository;
     private final ResourceAllocationRepository resourceAllocationRepository;
 
-    // Constructor Injection
+   
     public ResourceAllocationServiceImpl(
             ResourceRequestRepository resourceRequestRepository,
             ResourceRepository resourceRepository,
@@ -34,7 +34,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         ResourceRequest request = resourceRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("ResourceRequest not found"));
 
-        // Simple allocation logic: take first available resource
+       
         Resource resource = resourceRepository.findAll().stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No resources available"));

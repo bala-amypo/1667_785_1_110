@@ -32,10 +32,10 @@ public class ResourceRequestController {
         return resourceRequestService.getRequest(id);
     }
 
-    @PutMapping("/api/requests/status/{requestId}")
+    @PutMapping("/api/requests/status/{requestId}/{status}")
     public ResourceRequest updateRequestStatus(
             @PathVariable Long requestId,
-            @RequestParam String status) {
+            @PathVariable String status) {
         return resourceRequestService.updateRequestStatus(requestId, status);
     }
 }

@@ -22,7 +22,8 @@ public class Resource {
 
     @Column(nullable = false)
     private String resourceType;
-
+    
+    @Min(1)
     private Integer capacity;
 
     private String location;

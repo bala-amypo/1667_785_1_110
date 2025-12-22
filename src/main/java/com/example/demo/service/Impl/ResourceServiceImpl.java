@@ -4,6 +4,7 @@ import com.example.demo.entity.Resource;
 import com.example.demo.repository.ResourceRepository;
 import com.example.demo.service.ResourceService;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 
@@ -19,10 +20,9 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public Resource createResource(Resource resource) {
 
-        if (resourceRepository.existsByResourceName(resource.getResourceName())) {
-            throw new RuntimeException("Resource already exists");
-        }
-
+    if (resourceRepository.existsByResourceName(resource.getResourceName())) {
+          throw new ValidationException("Resource with this resourceName already exists");
+     }
         return resourceRepository.save(resource);
     }
 

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.AllocationRule;
 import com.example.demo.repository.AllocationRuleRepository;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 
@@ -19,8 +20,9 @@ public class AllocationRuleServiceImpl implements AllocationRuleService {
     public AllocationRule createRule(AllocationRule rule) {
 
         if (allocationRuleRepository.existsByRuleName(rule.getRuleName())) {
-            throw new RuntimeException("AllocationRule with this ruleName already exists");
-        }
+            throw new ValidationException("AllocationRule with this ruleName already exists");
+         }
+
 
         if (rule.getPriorityWeight() < 0) {
             throw new RuntimeException("priorityWeight must be greater than or equal to 0");

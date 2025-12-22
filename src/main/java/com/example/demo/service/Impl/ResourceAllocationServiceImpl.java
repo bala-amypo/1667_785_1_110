@@ -18,10 +18,8 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     private final ResourceAllocationRepository resourceAllocationRepository;
 
    
-    public ResourceAllocationServiceImpl(
-            ResourceRequestRepository resourceRequestRepository,
-            ResourceRepository resourceRepository,
-            ResourceAllocationRepository resourceAllocationRepository) {
+    public ResourceAllocationServiceImpl(ResourceRequestRepository resourceRequestRepository,ResourceRepository resourceRepository,
+          ResourceAllocationRepository resourceAllocationRepository) {
 
         this.resourceRequestRepository = resourceRequestRepository;
         this.resourceRepository = resourceRepository;

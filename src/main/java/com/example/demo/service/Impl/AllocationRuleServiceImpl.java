@@ -1,44 +1,39 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.AllocationRule;
 import com.example.demo.repository.AllocationRuleRepository;
+import com.example.demo.service.AllocationRuleService;
 import org.springframework.stereotype.Service;
-import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 
 @Service
 public class AllocationRuleServiceImpl implements AllocationRuleService {
 
-    private final AllocationRuleRepository allocationRuleRepository;
+    private final AllocationRuleRepository ruleRepo;
 
-    public AllocationRuleServiceImpl(AllocationRuleRepository allocationRuleRepository) {
-        this.allocationRuleRepository = allocationRuleRepository;
+    public AllocationRuleServiceImpl(AllocationRuleRepository ruleRepo) {
+        this.ruleRepo = ruleRepo;
     }
 
     @Override
     public AllocationRule createRule(AllocationRule rule) {
 
-        if (allocationRuleRepository.existsByRuleName(rule.getRuleName())) {
-            throw new ValidationException("AllocationRule with this ruleName already exists");
-         }
-
-
-        if (rule.getPriorityWeight() < 0) {
-            throw new RuntimeException("priorityWeight must be greater than or equal to 0");
+        if (ruleRepo.existsByRuleName(rule.getRuleName())) {
+            throw new RuntimeException("Rule exists");
         }
 
-        return allocationRuleRepository.save(rule);
+        return ruleRepo.save(rule);
     }
 
     @Override
     public AllocationRule getRule(Long id) {
-        return allocationRuleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AllocationRule not found"));
+        return ruleRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
     }
 
     @Override
     public List<AllocationRule> getAllRules() {
-        return allocationRuleRepository.findAll();
+        return ruleRepo.findAll();
     }
 }

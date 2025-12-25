@@ -4,36 +4,34 @@ import com.example.demo.entity.Resource;
 import com.example.demo.repository.ResourceRepository;
 import com.example.demo.service.ResourceService;
 import org.springframework.stereotype.Service;
-import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
-    private final ResourceRepository resourceRepository;
+    private final ResourceRepository resourceRepo;
 
-    public ResourceServiceImpl(ResourceRepository resourceRepository) {
-        this.resourceRepository = resourceRepository;
+    public ResourceServiceImpl(ResourceRepository resourceRepo) {
+        this.resourceRepo = resourceRepo;
     }
 
     @Override
-    public Resource createResource(Resource resource) {
+    public Resource createResource(Resource r) {
 
-    if (resourceRepository.existsByResourceName(resource.getResourceName())) {
-          throw new ValidationException("Resource with this resourceName already exists");
-     }
-        return resourceRepository.save(resource);
-    }
+        if (r.getResourceName() == null || r.getResourceType() == null || r.getCapacity() == null) {
+            throw new RuntimeException("Invalid resource");
+        }
 
-    @Override
-    public Resource getResource(Long id) {
-        return resourceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Resource not found"));
+        if (resourceRepo.existsByResourceName(r.getResourceName())) {
+            throw new RuntimeException("Resource exists");
+        }
+
+        return resourceRepo.save(r);
     }
 
     @Override
     public List<Resource> getAllResources() {
-        return resourceRepository.findAll();
+        return resourceRepo.findAll();
     }
 }

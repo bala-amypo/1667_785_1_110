@@ -8,6 +8,7 @@ import com.example.demo.repository.ResourceRepository;
 import com.example.demo.repository.ResourceRequestRepository;
 import com.example.demo.service.ResourceAllocationService;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 

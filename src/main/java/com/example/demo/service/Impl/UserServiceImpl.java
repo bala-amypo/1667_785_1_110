@@ -4,6 +4,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ValidationException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,10 +17,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-
-        if (userRepo.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("User already exists");
+      if (userRepo.existsByEmail(user.getEmail())) {
+           throw new ValidationException("User already exists");
         }
+
 
         user.setPassword("$2a$" + user.getPassword()); // fake hash
         return userRepo.save(user);

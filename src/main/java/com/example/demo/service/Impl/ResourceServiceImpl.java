@@ -4,6 +4,7 @@ import com.example.demo.entity.Resource;
 import com.example.demo.repository.ResourceRepository;
 import com.example.demo.service.ResourceService;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ValidationException;
 
 import java.util.List;
 
@@ -23,9 +24,11 @@ public class ResourceServiceImpl implements ResourceService {
             throw new RuntimeException("Invalid resource");
         }
 
+        
         if (resourceRepo.existsByResourceName(r.getResourceName())) {
-            throw new RuntimeException("Resource exists");
+             throw new ValidationException("Resource exists");
         }
+
 
         return resourceRepo.save(r);
     }

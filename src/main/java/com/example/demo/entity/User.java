@@ -1,38 +1,31 @@
 package com.example.demo.entity;
 
-import lombok.Data;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String fullName;
-    @Column(unique = true, nullable = false)
+
+    @Column(unique = true)
     private String email;
+
+    private String password;
+
     private String role;
-    private LocalDateTime createdAt;
 
-    public User() {}
-
-    public User(String fullName,String email, String role) {
+    public User(String fullName, String email, String password, String role) {
         this.fullName = fullName;
         this.email = email;
+        this.password = password;
         this.role = role;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (this.role == null || this.role.isEmpty()) {
-            this.role = "USER";
-        }
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
     }
 }

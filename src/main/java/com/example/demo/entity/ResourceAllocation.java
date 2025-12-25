@@ -2,36 +2,24 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
 public class ResourceAllocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Resource resource;
 
-    @OneToOne(optional = false)
-    @JoinColumn(unique = true)
+    @ManyToOne
     private ResourceRequest request;
 
-    private LocalDateTime allocatedAt;
-
-    private Boolean conflictFlag;
+    private LocalDateTime allocatedAt = LocalDateTime.now(); // REQUIRED
 
     private String notes;
-
-    @PrePersist
-    public void prePersist() {
-        allocatedAt = LocalDateTime.now();
-    }
 }

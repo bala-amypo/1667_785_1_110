@@ -2,11 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Resource;
 import com.example.demo.service.ResourceService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/resources")
 public class ResourceController {
 
     private final ResourceService resourceService;
@@ -15,18 +17,13 @@ public class ResourceController {
         this.resourceService = resourceService;
     }
 
-    @PostMapping("/api/resources")
-    public Resource create(@RequestBody Resource resource) {
-        return resourceService.createResource(resource);
+    @PostMapping
+    public ResponseEntity<Resource> create(@RequestBody Resource resource) {
+        return ResponseEntity.ok(resourceService.createResource(resource));
     }
 
-    @GetMapping("/api/resources")
-    public List<Resource> getAll() {
-        return resourceService.getAllResources();
-    }
-
-    @GetMapping("/api/resources/{id}")
-    public Resource getById(@PathVariable Long id) {
-        return resourceService.getResource(id);
+    @GetMapping
+    public ResponseEntity<List<Resource>> getAll() {
+        return ResponseEntity.ok(resourceService.getAllResources());
     }
 }

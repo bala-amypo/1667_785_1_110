@@ -34,9 +34,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
 
         List<Resource> resources = resourceRepo.findByResourceType(rr.getResourceType());
 
-        if (resources.isEmpty()) {
-            throw new RuntimeException("No resource available");
-        }
+       if (resources.isEmpty()) {
+          throw new ValidationException("No resource available");
+         }
+
 
         ResourceAllocation alloc = new ResourceAllocation();
         alloc.setRequest(rr);

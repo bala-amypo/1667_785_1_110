@@ -23,8 +23,9 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
     @Override
     public ResourceRequest createRequest(Long userId, ResourceRequest rr) {
 
-        User u = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+       User u = userRepo.findById(userId)
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
 
         rr.setRequestedBy(u);
         rr.setStatus("PENDING");

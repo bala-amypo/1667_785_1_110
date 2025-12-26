@@ -22,6 +22,10 @@ public class UserServiceImpl implements UserService {
         this.encoder = encoder;
         this.userRepo = userRepo;
     }
+    public UserServiceImpl(UserRepository userRepo) {
+        this.userRepo = userRepo;
+        this.encoder = new BCryptPasswordEncoder(); // or null if test doesn't encode
+    }
 
     @Override
     public User registerUser(User user) {

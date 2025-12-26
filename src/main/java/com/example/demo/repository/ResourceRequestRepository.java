@@ -13,7 +13,4 @@ public interface ResourceRequestRepository extends JpaRepository<ResourceRequest
 
     // Get requests between start times
     List<ResourceRequest> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
-
-   
-    ResourceRequest findById(long id);
 }

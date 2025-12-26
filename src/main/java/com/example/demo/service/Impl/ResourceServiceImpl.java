@@ -36,7 +36,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
     @Override
 public Resource getResourceByName(String resourceName) {
-    return resourceRepo.findByResourceName(resourceName)
+    return resourceRepo.getResourceByName(resourceName)
             .orElseThrow(() -> new RuntimeException("Resource not found"));
 }
 

@@ -17,26 +17,33 @@ public class ResourceRequestController {
         this.requestService = requestService;
     }
 
+    // Create a new request for a user
     @PostMapping("/{userId}")
-    public ResponseEntity<ResourceRequest> createRequest(
+    public ResourceRequest createRequest(
             @PathVariable Long userId,
             @RequestBody ResourceRequest request) {
 
-        return ResponseEntity.ok(requestService.createRequest(userId, request));
+        return requestService.createRequest(userId, request);
     }
 
+    // Get all requests for a specific user
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ResourceRequest>> getByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(requestService.getRequestsByUser(userId));
+    public List<ResourceRequest> getByUser(@PathVariable Long userId) {
+        return requestService.getRequestsByUser(userId);
     }
 
+    // Update the status of a request
     @PutMapping("/{requestId}/status/{status}")
-    public ResponseEntity<ResourceRequest> updateStatus(
+    public ResourceRequest updateStatus(
             @PathVariable Long requestId,
             @PathVariable String status) {
 
-        return ResponseEntity.ok(
-                requestService.updateRequestStatus(requestId, status)
-        );
+        return requestService.updateRequestStatus(requestId, status);
+    }
+
+    // Optional: Get request by ID
+    @GetMapping("/{requestId}")
+    public ResourceRequest getRequest(@PathVariable Long requestId) {
+        return requestService.getRequestById(requestId);
     }
 }

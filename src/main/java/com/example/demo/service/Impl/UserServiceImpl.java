@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("User already exists");
         }
 
-        // user.setPassword("$2a$" + user.getPassword());
+       user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
 
     }

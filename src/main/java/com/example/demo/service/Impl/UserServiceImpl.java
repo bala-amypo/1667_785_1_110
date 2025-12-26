@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
 
+    public UserServiceImpl(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+    
     @Autowired
     private PasswordEncoder encoder;
    

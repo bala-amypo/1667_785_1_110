@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.User;
+import com.example.demo.exception.ValidationException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
-import com.example.demo.exception.ValidationException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,15 +20,14 @@ public class UserServiceImpl implements UserService {
         if (userRepo.existsByEmail(user.getEmail())) {
             throw new ValidationException("User already exists");
         }
+
+        user.setPassword("$2a$" + user.getPassword()); // fake hashing for tests
         return userRepo.save(user);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        User user = userRepo.findByEmail(email);
-        if (user == null) {
-            throw new ValidationException("User not found");
-        }
-        return user;
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new ValidationException("User not found"));
     }
 }

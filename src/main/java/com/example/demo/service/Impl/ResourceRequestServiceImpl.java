@@ -2,11 +2,11 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.ResourceRequest;
 import com.example.demo.entity.User;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ResourceRequestRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ResourceRequestService;
 import org.springframework.stereotype.Service;
-import com.example.demo.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -23,9 +23,8 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
 
     @Override
     public ResourceRequest createRequest(Long userId, ResourceRequest rr) {
-        // Get user safely
         User u = userRepo.findById(userId)
-                         .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         rr.setRequestedBy(u);
         rr.setStatus("PENDING");
@@ -41,15 +40,9 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
     @Override
     public ResourceRequest updateRequestStatus(Long id, String status) {
         ResourceRequest r = reqRepo.findById(id)
-                                   .orElseThrow(() -> new ResourceNotFoundException("Request not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
         r.setStatus(status);
         return reqRepo.save(r);
-    }
-
-    @Override
-    public ResourceRequest getRequestById(Long requestId) {
-        return reqRepo.findById(requestId)
-                      .orElseThrow(() -> new ResourceNotFoundException("Request not found with id: " + requestId));
     }
 }

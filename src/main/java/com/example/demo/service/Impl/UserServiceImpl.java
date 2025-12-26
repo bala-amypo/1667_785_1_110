@@ -13,13 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepo;
-    private final PasswordEncoder encoder;
+     @Autowired
+    private UserRepository userRepo;
 
-    public UserServiceImpl(PasswordEncoder encoder, UserRepository userRepo) {
-        this.encoder = encoder;
-        this.userRepo = userRepo;
-    }
+    @Autowired
+    private PasswordEncoder encoder;
    
 
     @Override

@@ -24,7 +24,7 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
     @Override
     public ResourceRequest createRequest(Long userId, ResourceRequest rr) {
         // Simple check if user exists
-        User u = userRepo.findUserById(userId); // <-- custom repo method returning User directly
+        User u = userRepo.findById(userId); // <-- custom repo method returning User directly
         if (u == null) {
             throw new ResourceNotFoundException("User not found");
         }
@@ -42,7 +42,7 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
 
     @Override
     public ResourceRequest updateRequestStatus(Long id, String status) {
-        ResourceRequest r = reqRepo.findRequestById(id); // <-- custom repo method returning ResourceRequest directly
+        ResourceRequest r = reqRepo.findById(id); // <-- custom repo method returning ResourceRequest directly
         if (r == null) {
             throw new ResourceNotFoundException("Request not found");
         }

@@ -16,13 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    // ✅ Password encoder bean (required by AuthController & service)
+   
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ JwtUtil BEAN (THIS FIXES YOUR TERMINAL ERROR)
+   
     @Bean
     public JwtUtil jwtUtil() {
         return new JwtUtil(
@@ -31,20 +31,20 @@ public class SecurityConfig {
         );
     }
 
-    // ✅ JWT Filter bean
+    
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(JwtUtil jwtUtil) {
         return new JwtAuthenticationFilter(jwtUtil);
     }
 
-    // ✅ Authentication manager
+    
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
-    // ✅ Security rules
+    
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -56,20 +56,20 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
-                // PUBLIC endpoints
+                
                 .requestMatchers(
                         "/auth/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**"
                 ).permitAll()
 
-                // PROTECTED endpoints
+               
                 .requestMatchers("/api/**").authenticated()
 
                 .anyRequest().permitAll()
             );
 
-        // Register JWT filter
+       
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

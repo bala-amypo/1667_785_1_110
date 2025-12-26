@@ -9,11 +9,11 @@ import java.util.List;
 public interface ResourceRequestRepository extends JpaRepository<ResourceRequest, Long> {
 
     // Get requests by user ID
-    List<ResourceRequest> findByRequestedBy_Id(Long userId);
+    List<ResourceRequest> findByRequestedById(Long userId);
 
     // Get requests between start times
     List<ResourceRequest> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
 
-    // Direct find by ID (returns null if not found)
+   
     ResourceRequest findById(long id);
 }

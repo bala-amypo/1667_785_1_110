@@ -21,8 +21,9 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("User already exists");
         }
 
-        user.setPassword("$2a$" + user.getPassword()); // fake hashing for tests
+        // user.setPassword("$2a$" + user.getPassword());
         return userRepo.save(user);
+
     }
 
     @Override

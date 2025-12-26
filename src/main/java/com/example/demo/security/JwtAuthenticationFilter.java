@@ -1,8 +1,10 @@
 package com.example.demo.security;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -37,16 +39,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Claims claims = jwtUtil.parseClaims(token);
 
                 String email = claims.getSubject();
-                String role = (String) claims.get("role");
+                String role = claims.get("role", String.class); // ADMIN
 
                 if (email != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                    // ✅ THIS IS THE FIX
+                    List<SimpleGrantedAuthority> authorities =
+                            List.of(new SimpleGrantedAuthority(role));
 
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     email,
                                     null,
-                                    null
+                                    authorities
                             );
 
                     authentication.setDetails(
@@ -59,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception ex) {
-                
+                // invalid token → ignore
             }
         }
 

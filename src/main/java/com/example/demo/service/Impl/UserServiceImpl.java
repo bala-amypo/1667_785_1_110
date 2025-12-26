@@ -16,11 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
-
-    public UserServiceImpl(UserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
-
     private final PasswordEncoder encoder;
 
     public UserServiceImpl(PasswordEncoder encoder, UserRepository userRepo) {
@@ -34,7 +29,7 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("User already exists");
         }
 
-       user.setPassword(passwordEncoder.encode(user.getPassword()));
+       user.setPassword(encoder.encode(user.getPassword()));
         return userRepo.save(user);
 
     }

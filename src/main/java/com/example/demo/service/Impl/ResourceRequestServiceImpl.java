@@ -5,10 +5,8 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.ResourceRequestRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ResourceRequestService;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.exception.ValidationException;
-
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -25,9 +23,8 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
 
     @Override
     public ResourceRequest createRequest(Long userId, ResourceRequest rr) {
-
-        // Direct find user
-        User u = userRepo.findById(userId);
+        // Simple check if user exists
+        User u = userRepo.findUserById(userId); // <-- custom repo method returning User directly
         if (u == null) {
             throw new ResourceNotFoundException("User not found");
         }
@@ -45,22 +42,11 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
 
     @Override
     public ResourceRequest updateRequestStatus(Long id, String status) {
-
-        ResourceRequest r = reqRepo.findById(id);
-        if (r == null) {
-            throw new ValidationException("Request not found");
-        }
-
-        r.setStatus(status);
-        return reqRepo.save(r);
-    }
-
-    @Override
-    public ResourceRequest getRequestById(Long requestId) {
-        ResourceRequest r = reqRepo.findById(requestId);
+        ResourceRequest r = reqRepo.findRequestById(id); // <-- custom repo method returning ResourceRequest directly
         if (r == null) {
             throw new ResourceNotFoundException("Request not found");
         }
-        return r;
+        r.setStatus(status);
+        return reqRepo.save(r);
     }
 }

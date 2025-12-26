@@ -4,6 +4,8 @@ import com.example.demo.entity.Resource;
 import com.example.demo.service.ResourceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 
 import java.util.List;
 

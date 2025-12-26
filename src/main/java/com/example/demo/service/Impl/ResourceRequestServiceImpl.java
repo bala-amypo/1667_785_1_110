@@ -45,4 +45,10 @@ public class ResourceRequestServiceImpl implements ResourceRequestService {
         r.setStatus(status);
         return reqRepo.save(r);
     }
+    @Override
+public ResourceRequest getRequestById(Long requestId) {
+    return reqRepo.findById(requestId)
+            .orElseThrow(() -> new RuntimeException("Request not found"));
+}
+
 }

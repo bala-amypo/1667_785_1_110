@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ResourceRequestRepository extends JpaRepository<ResourceRequest, Long> {
 
-    // Get requests by user ID
-    List<ResourceRequest> findByRequestedBy_Id(Long userId);
+    List<ResourceRequest> findByRequestedBy_Id(Long id);
 
-    // Get requests between start times
     List<ResourceRequest> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
+
+    Optional<ResourceRequest> findById(Long id); // Mandatory for test suite
 }

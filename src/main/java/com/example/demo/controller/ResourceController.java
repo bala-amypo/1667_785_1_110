@@ -16,7 +16,8 @@ public class ResourceController {
     public ResourceController(ResourceService resourceService) {
         this.resourceService = resourceService;
     }
-
+   
+   @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Resource> create(@RequestBody Resource resource) {
         return ResponseEntity.ok(resourceService.createResource(resource));

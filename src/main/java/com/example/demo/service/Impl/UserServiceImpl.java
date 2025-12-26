@@ -17,12 +17,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-      if (userRepo.existsByEmail(user.getEmail())) {
-           throw new ValidationException("User already exists");
+        if (userRepo.existsByEmail(user.getEmail())) {
+            throw new ValidationException("User already exists");
         }
-
-
-        user.setPassword("$2a$" + user.getPassword()); 
         return userRepo.save(user);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new ValidationException("User not found");
+        }
+        return user;
     }
 }

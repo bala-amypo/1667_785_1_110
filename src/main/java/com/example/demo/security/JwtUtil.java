@@ -1,19 +1,23 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-import java.security.Key;
-import java.util.Date;
 
 public class JwtUtil {
 
-    private final Key key;
-    private final long expiration;
+    private final SecretKey key;
+    private final long validityInMs;
 
-    public JwtUtil(String secret, long expiration) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expiration = expiration;
+    public JwtUtil(String secretKey, long validityInMs) {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        this.validityInMs = validityInMs;
     }
 
     public String generateToken(Long userId, String email, String role) {
@@ -23,12 +27,14 @@ public class JwtUtil {
                 .claim("userId", userId)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + validityInMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
+  
     public Claims parseClaims(String token) {
+
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

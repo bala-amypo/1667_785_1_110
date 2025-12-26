@@ -13,4 +13,6 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     List<Resource> findByResourceType(String resourceType);
 
     Optional<Resource> findById(Long id); // For allocations
+    Optional<Resource> findByResourceName(String resourceName);
+
 }

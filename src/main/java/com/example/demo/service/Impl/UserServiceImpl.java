@@ -7,13 +7,13 @@ import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-    
+import org.springframework.beans.factory.annotation.Autowired;
+  
 
 @Service
 public class UserServiceImpl implements UserService {
 
-     @Autowired
+    @Autowired
     private UserRepository userRepo;
 
     @Autowired

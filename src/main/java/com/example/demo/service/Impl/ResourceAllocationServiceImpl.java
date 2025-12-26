@@ -9,6 +9,7 @@ import com.example.demo.repository.ResourceRequestRepository;
 import com.example.demo.service.ResourceAllocationService;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ValidationException;
+import com.example.demo.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -31,14 +32,13 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     public ResourceAllocation autoAllocate(Long requestId) {
 
         ResourceRequest rr = reqRepo.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
         List<Resource> resources = resourceRepo.findByResourceType(rr.getResourceType());
 
-       if (resources.isEmpty()) {
-          throw new ValidationException("No resource available");
-         }
-
+        if (resources.isEmpty()) {
+            throw new ValidationException("No resource available");
+        }
 
         ResourceAllocation alloc = new ResourceAllocation();
         alloc.setRequest(rr);

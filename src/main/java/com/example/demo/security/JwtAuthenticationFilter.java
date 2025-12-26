@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (email != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    // ✅ THIS IS THE FIX
+                   
                     List<SimpleGrantedAuthority> authorities =
                             List.of(new SimpleGrantedAuthority(role));
 
@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception ex) {
-                // invalid token → ignore
+                
             }
         }
 

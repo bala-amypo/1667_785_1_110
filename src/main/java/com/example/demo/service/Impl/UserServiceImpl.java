@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        user.setPassword("$2a$" + user.getPassword()); // fake hash
+        user.setPassword("$2a$" + user.getPassword()); 
         return userRepo.save(user);
     }
 }

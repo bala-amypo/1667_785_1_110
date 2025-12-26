@@ -18,18 +18,17 @@ public class AllocationRuleServiceImpl implements AllocationRuleService {
 
     @Override
     public AllocationRule createRule(AllocationRule rule) {
-
         if (ruleRepo.existsByRuleName(rule.getRuleName())) {
-            throw new RuntimeException("Rule exists");
+            throw new RuntimeException("Rule already exists");
         }
-
         return ruleRepo.save(rule);
     }
 
     @Override
     public AllocationRule getRule(Long id) {
-        return ruleRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        AllocationRule rule = ruleRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
+        return rule;
     }
 
     @Override

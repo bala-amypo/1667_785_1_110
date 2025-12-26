@@ -40,3 +40,33 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(user);
     }
 }
+package com.example.demo.service;
+
+import com.example.demo.entity.User;
+
+public interface UserService {
+    User registerUser(User user);
+}
+package com.example.demo.controller;
+
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody User user) {
+        return ResponseEntity.ok(userService.registerUser(user));
+    }
+}
+

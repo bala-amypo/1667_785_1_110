@@ -19,7 +19,7 @@ public class ResourceAllocation {
     @ManyToOne
     private ResourceRequest request;
 
-    private LocalDateTime allocatedAt = LocalDateTime.now(); // REQUIRED
+    private LocalDateTime allocatedAt = LocalDateTime.now(); 
 
     private String notes;
 }

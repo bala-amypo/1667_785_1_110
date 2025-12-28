@@ -22,5 +22,6 @@ public class ResourceRequest {
     private String status = "PENDING"; // REQUIRED BY TEST
 
     @ManyToOne
+    @JoinColumn(name = "requested_by") 
     private User requestedBy;
 }

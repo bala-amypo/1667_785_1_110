@@ -36,10 +36,26 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         if (resources.isEmpty()) {
             throw new ValidationException("No resource available");
         }
+        if (lastAlloc != null) {
+
+    // if time over, release resource
+    if (lastAlloc.isConflict() &&
+        rr.getEndTime().isBefore(java.time.LocalDateTime.now())) {
+
+        lastAlloc.setConflict(false);
+        allocRepo.save(lastAlloc);
+    }
+
+    // block if still in use
+    if (lastAlloc.isConflict()) {
+        throw new ValidationException("Resource is already in use");
+    }
 
         ResourceAllocation alloc = new ResourceAllocation();
         alloc.setRequest(rr);
         alloc.setResource(resources.get(0));
+        
+        alloc.setConflict(true);
 
         return allocRepo.save(alloc);
     }

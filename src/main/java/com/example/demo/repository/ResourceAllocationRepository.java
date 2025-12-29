@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ResourceAllocationRepository extends JpaRepository<ResourceAllocation, Long> {
 
-    Optional<ResourceAllocation> findById(Long id); // For consistency
+    Optional<ResourceAllocation> findById(Long id); 
 }

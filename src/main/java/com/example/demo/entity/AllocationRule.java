@@ -16,4 +16,13 @@ public class AllocationRule {
 
     private String ruleType;
     private Integer priorityWeight;
+
+@Column(name = "created_at", nullable = false, updatable = false)
+private LocalDateTime createdAt;
+
+@PrePersist
+public void onCreate() {
+    this.createdAt = LocalDateTime.now();
+}
+
 }

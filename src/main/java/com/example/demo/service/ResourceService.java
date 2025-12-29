@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Resource;
-import com.example.demo.entity.ResourceAllocation;
+
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface ResourceService {
 
     Resource getResourceByName(String resourceName);
 
-    ResourceAllocation findTopByResourceOrderByAllocatedAtDesc(Resource resource);
+   
 }

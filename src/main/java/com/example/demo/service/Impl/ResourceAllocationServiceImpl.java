@@ -36,6 +36,8 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         if (resources.isEmpty()) {
             throw new ValidationException("No resource available");
         }
+        ResourceAllocation lastAlloc =
+            allocRepo.findTopByResourceOrderByAllocatedAtDesc(resources.get(0));
         if (lastAlloc != null) {
 
     // if time over, release resource
@@ -49,6 +51,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     // block if still in use
     if (lastAlloc.isConflict()) {
         throw new ValidationException("Resource is already in use");
+    }
     }
 
         ResourceAllocation alloc = new ResourceAllocation();

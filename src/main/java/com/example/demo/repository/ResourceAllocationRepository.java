@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ResourceAllocationRepository extends JpaRepository<ResourceAllocation, Long> {
 
     Optional<ResourceAllocation> findById(Long id); 
+    ResourceAllocation findTopByResourceOrderByAllocatedAtDesc(Resource resource);
 }

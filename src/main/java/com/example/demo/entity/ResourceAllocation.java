@@ -22,4 +22,7 @@ public class ResourceAllocation {
     private LocalDateTime allocatedAt = LocalDateTime.now(); 
 
     private String notes;
+
+    private boolean conflict = false;
+
 }

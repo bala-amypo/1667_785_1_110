@@ -37,7 +37,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
             throw new ValidationException("No resource available");
         }
         ResourceAllocation lastAlloc =
-            allocRepo.findTopByResourceOrderByAllocatedAtDesc(resources.get(0));
+            resourceRepo.findTopByResourceOrderByAllocatedAtDesc(resources.get(0));
         if (lastAlloc != null) {
 
     // if time over, release resource

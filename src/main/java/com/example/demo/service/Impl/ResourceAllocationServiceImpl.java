@@ -40,7 +40,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
             allocRepo.findTopByResourceOrderByAllocatedAtDesc(resources.get(0));
         if (lastAlloc != null) {
 
-    // if time over, release resource
+   
     if (lastAlloc.isConflict() &&
         rr.getEndTime().isBefore(java.time.LocalDateTime.now())) {
 
@@ -48,7 +48,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         allocRepo.save(lastAlloc);
     }
 
-    // block if still in use
+    
     if (lastAlloc.isConflict()) {
         throw new ValidationException("Resource is already in use");
     }
